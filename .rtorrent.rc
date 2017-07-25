@@ -2,11 +2,15 @@
 # This file is installed to ~/.rtorrent.rc
 # Enable/modify the options as needed, uncomment the options you wish to enable.
 # This configuration will work well with most systems, but optimal settings are dependant on specific server setup
-
-
+ 
+# 默认下载目录
 directory ="/home/rtorrent/download/"
+# 记录目录
 session ="/home/rtorrent/.session"
-schedule = watch_directory,5,5,load_start="/home/rtorrent/.watch/*.torrent"
+# 监视目录，放入的种子默认是下载到默认下载目录，也可指定
+schedule = watch_directory,5,5,load.start="/home/rtorrent/.watch/*.torrent"
+# 剩余空间小于10G，停止任务
+schedule = low_diskspace,5,60,close_low_diskspace=10240M
 
 ### BitTorrent
 # Global upload and download rate in KiB, `0` for unlimited
