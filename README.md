@@ -1,3 +1,4 @@
+在原版基础上稍加修改，获取最新版rtorrent及rutorrent，并开启支持ipv6
 # rotorrent-install-for-centos7
 rtorrent &amp; rutorrent install for centos7
 
@@ -10,7 +11,7 @@ rtorrent &amp; rutorrent install for centos7
 
 cd /root
 
-wget --no-check-certificate https://raw.githubusercontent.com/kevin-cn/rotorrent-install-for-centos7/master/rt_ru_install.sh
+wget --no-check-certificate https://raw.githubusercontent.com/pet185377/rotorrent-install-for-centos7/master/rt_ru_install.sh
 
 chmod +x rt_ru_install.sh
 
