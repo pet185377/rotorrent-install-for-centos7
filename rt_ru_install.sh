@@ -190,19 +190,11 @@ echo -e "${plain}============================================================"
 cd /tmp
 rm ruTorrent-3.7.zip -f
 rm ruTorrent-master -rf
-#获取最新版本rutorrent
-git clone https://github.com/Novik/ruTorrent.git rutorrent
-rm -r rutorrent/plugins
-#获取最新版本rutorrent的插件
-svn checkout https://github.com/Novik/ruTorrent/trunk/plugins rutorrent/plugins
-#若不需目录登录，可自行去除
-#rm rutorrent/.htaccess -f
-mv rutorrent ${webroot}/rutorrent
-#修改插件的配置文件
-rm -f ${webroot}/rutorrent/conf/plugins.ini
-cd ${webroot}/rutorrent/conf
-wget --no-check-certificate https://raw.githubusercontent.com/pet185377/rotorrent-install-for-centos7/master/plugins.ini
-cd /tmp
+wget -O ruTorrent-3.7.zip https://bintray.com/novik65/generic/download_file?file_path=ruTorrent-3.7.zip
+unzip -q ruTorrent-3.7.zip
+rm ruTorrent-master/.htaccess -f
+mv ruTorrent-master ${webroot}/rutorrent
+rm ruTorrent-* -rf
 }
 
 rutorrent_config(){
