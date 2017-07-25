@@ -101,14 +101,14 @@ echo -e "${plain}============================================================"
 echo -e "${yellow}开始安装libtorrent"
 echo -e "${plain}============================================================"
 cd /tmp
-wget http://rtorrent.net/downloads/libtorrent-0.13.6.tar.gz
-tar -zxf libtorrent-0.13.6.tar.gz
-cd libtorrent-0.13.6
-./configure
+git clone https://github.com/rakshasa/libtorrent.git
+cd libtorrent
+./autogen.sh
+./configure --disable-debug
 make && make install
 #清理安装文件
 cd /tmp
-rm libtorrent-0.13.6* -rf
+rm -rf libtorrent
 }
 
 install_rtorrent(){
@@ -118,30 +118,31 @@ echo -e "${plain}============================================================"
 echo -e "${yellow}开始安装rtorrent"
 echo -e "${plain}============================================================"
 cd /tmp
-#配置ld
+#配置ld刷新动态库
 echo "/usr/local/lib/" >> /etc/ld.so.conf
 ldconfig
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
-wget http://rtorrent.net/downloads/rtorrent-0.9.6.tar.gz
-tar -zxf rtorrent-0.9.6.tar.gz
-cd rtorrent-0.9.6
-./configure --with-xmlrpc-c
+git clone https://github.com/rakshasa/rtorrent.git
+cd rtorrent
+./autogen.sh
+#加入--enable-ipv6使之支持ipv6
+./configure --with-xmlrpc-c --with-ncurses --enable-ipv6 --disable-debug
 make && make install
 #清理安装文件
 cd /tmp
-rm rtorrent-0.9.6* -rf
+rm -rf rtorrent
 }
 
 rtorrent_config(){
 echo -e "${plain} "
 echo -e "${plain} "
 echo -e "${plain}============================================================"
-echo -e "${yellow}开始rtorrent配置"
+echo -e "${yellow}开始rtorrent配置,为用ipv6，需在.rtorrent.rc中手动添加ipv4地址"
 echo -e "${plain}============================================================"
 
-#rtorrent.rc配置文件下载
+#rtorrent.rc配置文件下载,建议自己修改一下
 cd /root
-wget --no-check-certificate https://raw.githubusercontent.com/kevin-cn/rotorrent-install-for-centos7/master/.rtorrent.rc
+wget --no-check-certificate https://raw.githubusercontent.com/pet185377/rotorrent-install-for-centos7/master/.rtorrent.rc
 webroot_tt=${webroot//\//\\\/}
 sed -i 's/\/home\/wwwroot\/default/'$webroot_tt'/g' .rtorrent.rc
 
@@ -189,11 +190,19 @@ echo -e "${plain}============================================================"
 cd /tmp
 rm ruTorrent-3.7.zip -f
 rm ruTorrent-master -rf
-wget -O ruTorrent-3.7.zip https://bintray.com/novik65/generic/download_file?file_path=ruTorrent-3.7.zip
-unzip -q ruTorrent-3.7.zip
-rm ruTorrent-master/.htaccess -f
-mv ruTorrent-master ${webroot}/rutorrent
-rm ruTorrent-* -rf
+#获取最新版本rutorrent
+git clone https://github.com/Novik/ruTorrent.git rutorrent
+rm -r rutorrent/plugins
+#获取最新版本rutorrent的插件
+svn checkout https://github.com/Novik/ruTorrent/trunk/plugins rutorrent/plugins
+#若不需目录登录，可自行去除
+#rm rutorrent/.htaccess -f
+mv rutorrent ${webroot}/rutorrent
+#修改插件的配置文件
+rm -f ${webroot}/rutorrent/conf/plugins.ini
+cd ${webroot}/rutorrent/conf
+wget --no-check-certificate https://raw.githubusercontent.com/pet185377/rotorrent-install-for-centos7/master/plugins.ini
+cd /tmp
 }
 
 rutorrent_config(){
@@ -278,7 +287,7 @@ service httpd restart
 
 
 show_howto(){
-echo "程序安装已结束，请到https://sadsu.com/?p=210查看如何配置RFC2节点以及设置php_admin_value open_basedir的目录访问权限"
+echo "程序安装已结束，请到https://sadsu.com/?p=210查看如何配置RFC2节点以及设置php_admin_value open_basedir的目录访问权限以及目录登陆"
 }
 
 config_firewall() {
