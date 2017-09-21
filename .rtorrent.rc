@@ -1,9 +1,9 @@
 # 默认下载目录
-directory ="/home/rtorrent/download/"
+directory ="/home/pt/download/"
 # 记录目录
-session ="/home/rtorrent/.session"
+session ="/home/pt/.session"
 # 监视目录，放入的种子默认是下载到默认下载目录，也可指定
-schedule = watch_directory,5,5,load.start="/home/rtorrent/.watch/*.torrent"
+schedule = watch_directory,5,5,load.start="/home/pt/.watch/*.torrent"
 # 剩余空间小于10G，停止任务
 schedule = low_diskspace,5,60,close_low_diskspace=10240M
 port_range = 55950-56000
@@ -14,4 +14,3 @@ encryption = allow_incoming,enable_retry,prefer_plaintext
 dht = disable
 peer_exchange = no
 scgi_port = 127.0.0.1:5000
-ip = 
