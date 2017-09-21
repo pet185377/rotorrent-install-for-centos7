@@ -101,14 +101,16 @@ echo -e "${plain}============================================================"
 echo -e "${yellow}开始安装libtorrent"
 echo -e "${plain}============================================================"
 cd /tmp
-git clone https://github.com/rakshasa/libtorrent.git
-cd libtorrent
+curl http://rtorrent.net/downloads/libtorrent-0.13.4.tar.gz | tar xz
+cd libtorrent-0.13.4
+wget https://raw.githubusercontent.com/pet185377/libtorrent-ipv6-patches/master/libtorrent-0.13.4-tar.patch
+patch -p1<libtorrent-0.13.4-tar.patch    #给libtorrent打入ipv6补丁包
 ./autogen.sh
-./configure --disable-debug
+./configure --disable-debug --enable-ipv6
 make && make install
 #清理安装文件
 cd /tmp
-rm -rf libtorrent
+rm libtorrent-0.13.4* -rf
 }
 
 install_rtorrent(){
@@ -122,23 +124,25 @@ cd /tmp
 echo "/usr/local/lib/" >> /etc/ld.so.conf
 ldconfig
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
-git clone https://github.com/rakshasa/rtorrent.git
-cd rtorrent
+curl http://rtorrent.net/downloads/rtorrent-0.9.4.tar.gz | tar xz
+cd rtorrent-0.9.4
+wget https://raw.githubusercontent.com/pet185377/rtorrent-ipv6-patches/master/rtorrent-0.9.4-tar.patch
+patch -p1<rtorrent-0.9.4-tar.patch    #给rtorrent打入ipv6补丁包
 ./autogen.sh
 #加入--enable-ipv6使之支持ipv6
-./configure --with-xmlrpc-c --with-ncurses --enable-ipv6 --disable-debug
+./configure --with-xmlrpc-c --with-ncurses --disable-debug --enable-ipv6
 make && make install
 #清理安装文件
 cd /tmp
-rm -rf rtorrent
+rm rtorrent-0.9.4* -rf
 }
 
 rtorrent_config(){
 echo -e "${plain} "
 echo -e "${plain} "
-echo -e "${plain}============================================================"
-echo -e "${yellow}开始rtorrent配置,为用ipv6，需在.rtorrent.rc中手动添加ipv4地址"
-echo -e "${plain}============================================================"
+echo -e "${plain}================================================================"
+echo -e "${yellow}开始rtorrent配置,为用ipv6，之后你需在.rtorrent.rc中手动添加ipv4地址"
+echo -e "${plain}================================================================"
 
 #rtorrent.rc配置文件下载,建议自己修改一下
 cd /root
@@ -147,11 +151,11 @@ webroot_tt=${webroot//\//\\\/}
 sed -i 's/\/home\/wwwroot\/default/'$webroot_tt'/g' .rtorrent.rc
 
 #主应用目录
-mkdir /home/rtorrent 
+mkdir /home/pt
 #下载文件存放目录
-mkdir /home/rtorrent/download 
+mkdir /home/pt/download 
 #种子存储目录以及过程目录
-mkdir /home/rtorrent/.session 
+mkdir /home/pt/.session 
 #监控目录，用于rss下载，存放到这个目录里面的文件会自动被下载，设置轮询时长目前是30分钟，可以在.rottent.rc文件中自定义修改
 mkdir /home/rtorrent/.watch 
 
