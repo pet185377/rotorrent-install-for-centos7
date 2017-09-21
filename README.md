@@ -1,7 +1,7 @@
 
-在原版基础上稍加修改，获取最新版rtorrent及rutorrent，并开启支持ipv6
-
-注意 需修改.rtorrent.rc文件添加ip = 你的ipv4地址以便汇报给tracker
+在原版基础上稍加修改，改为rtorrent0.9.4+libtorrent0.13.4+各自的ipv6补丁
+ 
+注意 安好后需修改.rtorrent.rc文件添加ip = "你的ipv4地址" 以便汇报给tracker
  
 # rotorrent-install-for-centos7
 rtorrent &amp; rutorrent install for centos7
