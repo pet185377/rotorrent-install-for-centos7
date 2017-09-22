@@ -25,6 +25,9 @@ chmod +x rt_ru_install.sh
 
 更改记录：
 
+version0.5  增加自动添加防火墙端口
+
+
 version0.4  增加支持centos6下安装，修正支持了在centos6环境下安装ffmpeg
 
 
