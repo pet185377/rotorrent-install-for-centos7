@@ -230,7 +230,7 @@ fi
 
 config_lnmp(){
 #设置目录读取权限
-sed -i 's/:\/tmp\/:\/proc\//:\/tmp\/:\/proc\/:\/usr\/bin\/:\/usr\/local\/bin\/:\/home\/rtorrent/g' /usr/local/nginx/conf/fastcgi.conf
+sed -i 's/:\/tmp\/:\/proc\//:\/tmp\/:\/proc\/:\/usr\/bin\/:\/usr\/local\/bin\/:\/home\/pt/g' /usr/local/nginx/conf/fastcgi.conf
 #设置RPC2/节点
 sed -i '/include enable-php.conf;/a\        location \/RPC2   \{  include scgi_params;scgi_pass localhost:5000; \}' /usr/local/nginx/conf/nginx.conf
 #重启nginx
@@ -239,7 +239,7 @@ service nginx restart
 
 config_vestacp_1(){
 #设置目录读取权限
-sed -i '/fastcgi_param  REDIRECT_STATUS    200;/a\        fastcgi_param PHP_ADMIN_VALUE "open_basedir=$document_root\/:\/tmp\/:\/proc\/:\/usr\/bin\/:\/usr\/local\/bin\/:\/home\/rtorrent";' /etc/nginx/fastcgi_params
+sed -i '/fastcgi_param  REDIRECT_STATUS    200;/a\        fastcgi_param PHP_ADMIN_VALUE "open_basedir=$document_root\/:\/tmp\/:\/proc\/:\/usr\/bin\/:\/usr\/local\/bin\/:\/home\/pt";' /etc/nginx/fastcgi_params
 #设置RPC2/节点
 sed -i '/error_page  403 \/error\/404.html;/a\    location \/RPC2   \{  include scgi_params;scgi_pass localhost:5000; \}' /home/admin/conf/web/nginx.conf
 #重启nginx
@@ -248,7 +248,12 @@ service nginx restart
 
 config_vestacp_2(){
 #设置目录读取权限
-sed -i 's/\/public_html:\/home\/admin\/tmp/\/public_html:\/home\/admin\/tmp:\/usr\/bin\/:\/usr\/local\/bin\/:\/home\/rtorrent/g' /home/admin/conf/web/httpd.conf
+sed -i 's/\/public_html:\/home\/admin\/tmp/\/public_html:\/home\/admin\/tmp:\/usr\/bin\/:\/usr\/local\/bin\/:\/home\/
+
+
+
+
+/g' /home/admin/conf/web/httpd.conf
 #设置RPC2/节点
 sed -i '/.error.log error;/a\    location \/RPC2   \{  include scgi_params;scgi_pass localhost:5000; \}' /home/admin/conf/web/nginx.conf
 #重启nginx,apache
@@ -258,7 +263,7 @@ service httpd restart
 
 config_apache(){
 #设置目录读取权限
-echo "php_admin_value open_basedir \"/var/www/html/:/tmp/:/proc/:/usr/bin/:/usr/local/bin/:/home/rtorrent\"" >> /etc/httpd/conf.d/php.conf
+echo "php_admin_value open_basedir \"/var/www/html/:/tmp/:/proc/:/usr/bin/:/usr/local/bin/:/home/pt\"" >> /etc/httpd/conf.d/php.conf
 #设置RPC2/节点
 echo "ProxyPass /RPC2 scgi://localhost:5000/" >> /etc/httpd/conf.d/php.conf
 #重启apache
@@ -270,7 +275,7 @@ config_btn(){
 #设置目录读取权限
 btn_file="$wwwroot/.user.ini"
 chattr -i $btn_file
-sed -i 's/:\/tmp\/:\/proc\//:\/tmp\/:\/proc\/:\/usr\/bin\/:\/usr\/local\/bin\/:\/home\/rtorrent/g' $btn_file
+sed -i 's/:\/tmp\/:\/proc\//:\/tmp\/:\/proc\/:\/usr\/bin\/:\/usr\/local\/bin\/:\/home\/pt/g' $btn_file
 chattr +i $btn_file
 #设置RPC2/节点
 sed -i '/allow 127.0.0.1;/a\    location \/RPC2   \{  include scgi_params;scgi_pass localhost:5000; \}' /www/server/panel/vhost/nginx/phpfpm_status.conf
