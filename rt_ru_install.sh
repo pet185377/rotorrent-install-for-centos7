@@ -157,20 +157,20 @@ mkdir /home/pt/download
 #种子存储目录以及过程目录
 mkdir /home/pt/.session 
 #监控目录，用于rss下载，存放到这个目录里面的文件会自动被下载，设置轮询时长目前是30分钟，可以在.rottent.rc文件中自定义修改
-mkdir /home/rtorrent/.watch 
+mkdir /home/pt/.watch 
 
 if [ $webtype = "lnmp" ]; then
-    chown -R www:www /home/rtorrent
+    chown -R www:www /home/pt
 elif [ $webtype = "vestacp(nginx)" ]; then
-    chown -R admin:admin /home/rtorrent
+    chown -R admin:admin /home/pt
 elif [ $webtype = "vestacp(nginx+apache)" ]; then
-    chown -R admin:admin /home/rtorrent
+    chown -R admin:admin /home/pt
 elif [ $webtype = "apache+phpfpm" ]; then
-    chown -R apache:apache /home/rtorrent  
+    chown -R apache:apache /home/pt
 elif [ $webtype = "btn" ]; then
-    chown -R www:www /home/rtorrent
+    chown -R www:www /home/pt
 elif [ $webtype = "other" ]; then
-    chown -R www:www /home/rtorrent
+    chown -R www:www /home/pt
 fi
 
 
@@ -248,12 +248,7 @@ service nginx restart
 
 config_vestacp_2(){
 #设置目录读取权限
-sed -i 's/\/public_html:\/home\/admin\/tmp/\/public_html:\/home\/admin\/tmp:\/usr\/bin\/:\/usr\/local\/bin\/:\/home\/
-
-
-
-
-/g' /home/admin/conf/web/httpd.conf
+sed -i 's/\/public_html:\/home\/admin\/tmp/\/public_html:\/home\/admin\/tmp:\/usr\/bin\/:\/usr\/local\/bin\/:\/home/pt/g' /home/admin/conf/web/httpd.conf
 #设置RPC2/节点
 sed -i '/.error.log error;/a\    location \/RPC2   \{  include scgi_params;scgi_pass localhost:5000; \}' /home/admin/conf/web/nginx.conf
 #重启nginx,apache
@@ -279,8 +274,8 @@ sed -i 's/:\/tmp\/:\/proc\//:\/tmp\/:\/proc\/:\/usr\/bin\/:\/usr\/local\/bin\/:\
 chattr +i $btn_file
 #设置RPC2/节点
 sed -i '/allow 127.0.0.1;/a\    location \/RPC2   \{  include scgi_params;scgi_pass localhost:5000; \}' /www/server/panel/vhost/nginx/phpfpm_status.conf
-#重启apache
-service httpd restart
+#重启nginx
+service nginx restart
 }
 
 
