@@ -106,7 +106,7 @@ cd libtorrent-0.13.4
 wget https://raw.githubusercontent.com/pet185377/libtorrent-ipv6-patches/master/libtorrent-0.13.4-tar.patch
 patch -p1<libtorrent-0.13.4-tar.patch    #给libtorrent打入ipv6补丁包
 ./autogen.sh
-./configure --disable-debug --enable-ipv6
+./configure --enable-ipv6
 make && make install
 #清理安装文件
 cd /tmp
@@ -130,7 +130,7 @@ wget https://raw.githubusercontent.com/pet185377/rtorrent-ipv6-patches/master/rt
 patch -p1<rtorrent-0.9.4-tar.patch    #给rtorrent打入ipv6补丁包
 ./autogen.sh
 #加入--enable-ipv6使之支持ipv6
-./configure --with-xmlrpc-c --with-ncurses --disable-debug --enable-ipv6
+./configure --with-xmlrpc-c --enable-ipv6
 make && make install
 #清理安装文件
 cd /tmp
