@@ -1,7 +1,11 @@
 
 在原版基础上稍加修改，改为rtorrent0.9.4+libtorrent0.13.4+各自的ipv6补丁
  
-注意 安好后需修改.rtorrent.rc文件添加ip = "你的ipv4地址" 以便汇报给tracker
+目前 宝塔环境下存在rss不能载入https的订阅链接的问题，暂未找到解决办法
+
+其余功能正常，支持http订阅的站点以及手动添加http/https种子均无问题
+ 
+注意 安好后需修改.rtorrent.rc文件添加ip = "你的ipv4地址" 以便汇报给tracker，否者只有ipv6地址
  
 # rotorrent-install-for-centos7
 rtorrent &amp; rutorrent install for centos7
